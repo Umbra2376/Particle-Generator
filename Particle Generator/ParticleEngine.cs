@@ -23,11 +23,6 @@ namespace Particle_Generator
             _generator = new Random();
             _enabled = enabled;
         }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (Particle particle in _particles)
-                particle.Draw(spriteBatch);
-        }
         private Particle GenerateNewParticle()
         {
             Texture2D texture = _textures[_generator.Next(_textures.Count)];
@@ -42,7 +37,31 @@ namespace Particle_Generator
             int size = _generator.Next(5, 10);
             int ttl = 20 + _generator.Next(40);
             return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
-
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Particle particle in _particles)
+                particle.Draw(spriteBatch);
+        }
+        public void Update()
+        {
+            if (_enabled)
+            {
+                int total = 10;
+                for (int i = 0; i < total; i++)
+                {
+                    _particles.Add(GenerateNewParticle());
+                }
+            }
+            for (int i = 0; i < _particles.Count; i++)
+            {
+                _particles[i].Update();
+                if (_particles[i].Dead)
+                {
+                    _particles.RemoveAt(i);
+                    i--;
+                }
+            }
         }
         public bool Enabled
         {
