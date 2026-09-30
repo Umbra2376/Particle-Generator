@@ -41,13 +41,15 @@ namespace Particle_Generator
                 Exit();
 
             // TODO: Add your update logic here
-
+            mouseState = Mouse.GetState();
+            if (mouseState.LeftButton == ButtonState.Pressed)
+                particleEngine.Enabled = true;
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
