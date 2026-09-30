@@ -19,9 +19,11 @@ namespace Particle_Generator
         private Color _color;
         private int _size;
         private int _ttl;
+        private bool _gravityEnabled;
 
-        public Particle(Texture2D texture, Vector2 position, Vector2 velocity, float angle, float angularVelocity, Color color, int size, int ttl)
+        public Particle(Texture2D texture, Vector2 position, Vector2 velocity, float angle, float angularVelocity, Color color, int size, int ttl, bool gravityEnabled)
         {
+            _gravityEnabled = gravityEnabled;
             _texture = texture;
             _position = position;
             _rect = new Rectangle(0, 0, size, size);
@@ -36,6 +38,10 @@ namespace Particle_Generator
         public void Update()
         {
             _position += _velocity;
+            if (_gravityEnabled)
+            {
+                _velocity.Y += 0.15f;
+            }
             _angle += _angularVelocity;
             _rect.Location = _position.ToPoint();
             _ttl--;

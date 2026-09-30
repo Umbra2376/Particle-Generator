@@ -12,22 +12,27 @@ namespace Particle_Generator
     {
         private Random _generator;
         private Vector2 _emitterLocation { get; set; }
+        private float _gravity;
         private List<Particle> _particles;
         private List<Texture2D> _textures;
         private bool _enabled;
-        public ParticleEngine(List<Texture2D> textures, Vector2 location, bool enabled)
+        private bool _gravityEnabled;
+
+        public ParticleEngine(List<Texture2D> textures, Vector2 location, bool enabled, bool gravityEnabled)
         {
             _emitterLocation = location;
             _textures = textures;
             _particles = new List<Particle>();
             _generator = new Random();
             _enabled = enabled;
+            _gravityEnabled = gravityEnabled;
         }
         private Particle GenerateNewParticle()
         {
             Texture2D texture = _textures[_generator.Next(_textures.Count)];
             Vector2 position = _emitterLocation;
             Vector2 velocity = new Vector2(1f * (float)(_generator.NextDouble() * 2 - 1), 1f * (float)(_generator.NextDouble() * 2 - 1));
+            //Vector2 velocity = new Vector2(0, 0);
             float angle = 0;
             float angularVelocity = 0.1f * (float)(_generator.NextDouble() * 2 - 1);
             Color color = new Color(
@@ -36,7 +41,7 @@ namespace Particle_Generator
             (float)_generator.NextDouble());
             int size = _generator.Next(5, 10);
             int ttl = 20 + _generator.Next(40);
-            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
+            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl, _gravityEnabled);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
