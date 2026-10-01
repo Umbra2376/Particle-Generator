@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Particle_Generator
             // TODO: Add your initialization logic here
             particles = new List<Texture2D>();
             base.Initialize();
-            particleEngine = new ParticleEngine(particles, Vector2.Zero, false, true);
+            particleEngine = new ParticleEngine(particles, Vector2.Zero, false, false);
         }
 
         protected override void LoadContent()
@@ -52,6 +53,10 @@ namespace Particle_Generator
                 particleEngine.Enabled = true;
             else
                 particleEngine.Enabled = false;
+            if (keyboardState.IsKeyDown(Keys.G) && particleEngine.GravityEnabled == false)
+                particleEngine.GravityEnabled = true;
+            else if (keyboardState.IsKeyDown(Keys.G) && particleEngine.GravityEnabled == true)
+                particleEngine.GravityEnabled = false;
                 base.Update(gameTime);
         }
 
